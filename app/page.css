@@ -1,0 +1,46 @@
+body {
+  background: #773333;
+}
+.container {
+  width: 500px;
+  margin: 50px auto;
+  background: rgb(70, 17, 17);
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+}
+h1 {
+  text-align: center;
+  color: #eee;
+}
+.input-area {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+.input-area input {
+  flex: 1;
+  padding: 10px;
+  font-size: 16px;
+}
+.input-area button {
+  padding: 10px 20px;
+  cursor: pointer;
+}
+li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 10px 0;
+  padding: 10px;
+  background: #eee;
+  border-radius: 6px;
+}
+.buttons {
+  display: flex;
+  gap: 8px;
+}
+button {
+  cursor: pointer;
+  padding: 6px 12px;
+}
