@@ -91,7 +91,7 @@ async function completeTask(id: string, completed: boolean) {
             {task.name}{task.completed ? "✔" : ""}
             <div className="buttons">
             <button onClick={() => deleteTask(task.id)}>Delete</button>
-            <button onClick={() => completeTask(task.id)}>
+            <button onClick={() => completeTask(task.id, task.completed)}>
               {task.completed ? "Undo" : "Complete"}
             </button>
             </div>
