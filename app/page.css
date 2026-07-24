@@ -3,6 +3,7 @@ body {
 }
 .container {
   width: 500px;
+  max-width: 90%;
   margin: 50px auto;
   background: rgb(70, 17, 17);
   padding: 25px;
@@ -35,6 +36,8 @@ li {
   padding: 10px;
   background: #eee;
   border-radius: 6px;
+  flex-wrap: wrap; 
+  gap: 8px;                
 }
 .buttons {
   display: flex;
@@ -43,4 +46,16 @@ li {
 button {
   cursor: pointer;
   padding: 6px 12px;
+}
+@media (max-width: 600px) {
+  .container {
+    margin: 20px auto;
+    padding: 15px;
+  }
+  .input-area {
+    flex-direction: column;
+  }
+  h1 {
+    font-size: 22px;
+  }
 }
