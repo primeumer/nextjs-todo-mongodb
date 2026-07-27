@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import { Trash2, Check, RotateCcw } from "lucide-react";
 import Link from "next/link";
-import "./page.css";
+import { useRouter } from "next/navigation";
 
 type Task = {
   id: string;
@@ -13,12 +13,19 @@ export default function Home() {
   const [task, setTask] = useState("");
   const [tasks, setTasks] = useState<Task[]>([]);
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
   useEffect(() => {
     loadTasks();
   },[]);
  async function loadTasks() {
   const response = await fetch("/api/tasks");
   const data = await response.json();
+  if(!response.ok){
+    if (response.status === 401){
+      router.push("/login");
+    }
+    return;
+  }
   const formattedTasks = data.map((task: any) => ({
     id: task._id,
     name: task.name,
@@ -72,9 +79,21 @@ async function completeTask(id: string, completed: boolean) {
   });
   await loadTasks();
 }
+async function handleLogout() {
+  await fetch("/api/auth/logout", { method: "POST" });
+  router.push("/login");
+}
   return (
+    <>
+<div className="orbs">
+  <div className="orb orb1"></div>
+  <div className="orb orb2"></div>
+  <div className="orb orb3"></div>
+</div>
     <div className="container">
-      <h1>TODO LIST APP</h1>
+  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+    <h1>TODO LIST APP</h1>
+  </div>
       <div className="input-area">
       <input
         type="text"
@@ -110,9 +129,13 @@ async function completeTask(id: string, completed: boolean) {
     ))
   )}
 </ul>
+<div className="bottom">
       <Link href="/completed">
   <button>View Completed Tasks</button>
 </Link>
+<button onClick={handleLogout} className="logout-btn">Logout</button>
     </div>
+    </div>
+    </>
   );
 }
