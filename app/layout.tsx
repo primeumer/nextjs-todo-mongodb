@@ -1,3 +1,4 @@
+import "./page.css";
 export default function RootLayout({
   children,
 }: {
