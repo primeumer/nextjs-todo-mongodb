@@ -57,12 +57,27 @@ li:hover {
   background: #ddd;
 }
 .buttons button {
-  background: transparent;
-  border: 1px solid #999;
-  border-radius: 4px;
-  padding: 6px 10px;
+  background: white;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 10px;
   display: flex;
   align-items: center;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.buttons button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+}
+
+.buttons button:first-child {
+  color: #c0392b;
+}
+
+.buttons button:last-child {
+  color: #27ae60;
 }
 .buttons {
   display: flex;
@@ -96,6 +111,57 @@ button:hover {
   padding: 10px 20px;
   font-weight: 600;
 }
+.completed-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 10px 0;
+  padding: 14px;
+  background: #eee;
+  border-radius: 8px;
+  transition: transform 0.15s, box-shadow 0.15s;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.completed-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+}
+
+.completed-item span {
+  text-decoration: line-through;
+  color: #555;
+}
+
+.check-icon {
+  color: #27ae60;
+  background: rgba(39, 174, 96, 0.1);
+  border-radius: 50%;
+  padding: 4px;
+}
+
+.back-btn {
+  background: #a83232;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 10px 20px;
+  font-weight: 600;
+  margin-top: 15px;
+}
+@media (max-width: 600px) {
+  .container {
+    margin: 20px auto;
+    padding: 15px;
+  }
+  .input-area {
+    flex-direction: column;
+  }
+  h1 {
+    font-size: 22px;
+  }
+}
+/* background */
 .orbs {
   position: fixed;
   top: 0;
@@ -159,16 +225,4 @@ button:hover {
 .container {
   position: relative;
   z-index: 1;
-}
-@media (max-width: 600px) {
-  .container {
-    margin: 20px auto;
-    padding: 15px;
-  }
-  .input-area {
-    flex-direction: column;
-  }
-  h1 {
-    font-size: 22px;
-  }
 }
