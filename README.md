@@ -10,7 +10,6 @@ A full-stack Todo List application built with Next.js and MongoDB, featuring use
 - View completed tasks on a separate page
 - Logout functionality
 - Mobile responsive design
-- Animated background (moving grid pattern)
 - Password validation (minimum 8 characters)
 - Email format validation
 - Unit tests for backend logic, authentication, and frontend components
