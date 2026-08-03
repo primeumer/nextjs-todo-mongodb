@@ -157,16 +157,33 @@ button:hover {
 }
 
 .ai-actions button {
-  background: #5c1a1a;
+  background: linear-gradient(135deg, #c0392b, #8a2a2a);
   color: white;
   border: none;
-  border-radius: 6px;
-  padding: 6px 14px;
-  font-size: 14px;
+  border-radius: 20px;
+  padding: 8px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+  transition: transform 0.15s, box-shadow 0.15s, opacity 0.15s;
 }
+
+.ai-actions button:hover {
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.35);
+  opacity: 1;
+}
+
+.ai-actions button:active {
+  transform: translateY(0) scale(0.98);
+}
+
 .ai-actions button:disabled {
-  background: #666;
+  background: #555;
+  box-shadow: none;
   cursor: not-allowed;
+  opacity: 0.6;
 }
 @media (max-width: 600px) {
   .container {
