@@ -185,6 +185,32 @@ button:hover {
   cursor: not-allowed;
   opacity: 0.6;
 }
+.task-details {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.task-details input,
+.task-details select {
+  padding: 8px;
+  border-radius: 6px;
+  border: none;
+  font-size: 14px;
+  flex: 1;
+  min-width: 140px;
+}
+
+@media (max-width: 600px) {
+  .task-details {
+    flex-direction: column;
+  }
+  .task-details input,
+  .task-details select {
+    width: 100%;
+  }
+}
 @media (max-width: 600px) {
   .container {
     margin: 20px auto;
@@ -261,4 +287,83 @@ button:hover {
 .container {
   position: relative;
   z-index: 1;
+}
+.sort-area {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 20px;
+  color: #eee;
+  font-size: 14px;
+}
+.sort-area select {
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: none;
+  font-size: 14px;
+  cursor: pointer;
+  background: #eee;
+}
+.task-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 4px;
+  width: 100%;
+}
+.badge {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+  white-space: nowrap;
+}
+.priority-low {
+  background: #d4f4dd;
+  color: #1e7e34;
+}
+.priority-medium {
+  background: #fdecc8;
+  color: #a3670c;
+}
+.priority-high {
+  background: #fadbd8;
+  color: #a83232;
+}
+.badge.category {
+  background: #e0d4f4;
+  color: #6c3ba3;
+}
+.badge.due-date {
+  background: #ddd;
+  color: #444;
+  font-weight: 600;
+}
+.status-overdue {
+  background: #a83232;
+  color: #fff;
+  animation: pulse-overdue 2s infinite;
+}
+.status-due-today {
+  background: #e08a2f;
+  color: #fff;
+}
+@keyframes pulse-overdue {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.55; }
+}
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.tag {
+  font-size: 11px;
+  font-weight: 600;
+  color: #2a5db0;
+  background: #d8e6fa;
+  padding: 2px 8px;
+  border-radius: 999px;
 }
