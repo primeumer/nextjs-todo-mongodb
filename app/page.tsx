@@ -8,29 +8,53 @@ type Task = {
   id: string;
   name: string;
   completed: boolean;
+  dueDate?:string;
+  priority?: "low" | "medium" | "high";
+  category?: string ;
+  tags?: string[];
 };
+function getDueStatus(dueDate?: string): string | null {
+  if (!dueDate) return null;
+  const now = new Date();
+  const due = new Date(dueDate);
+  const isSameDay =
+    now.getFullYear() === due.getFullYear() &&
+    now.getMonth() === due.getMonth() &&
+    now.getDate() === due.getDate();
+  if (due < now && !isSameDay) return "Overdue";
+  if (isSameDay) return "Due Today";
+  return null;
+}
 export default function Home() {
   const [task, setTask] = useState("");
   const [tasks, setTasks] = useState<Task[]>([]);
   const [loading, setLoading] = useState(false);
   const [refining, setRefining] = useState (false);
+  const [dueDate, setDueDate] = useState("");
+  const [priority, setPriority] = useState("medium");
+  const [category, setCategory] = useState("Work");
+  const [tags, setTags] = useState("");
   const router = useRouter();
   useEffect(() => {
     loadTasks();
   },[]);
  async function loadTasks() {
   const response = await fetch("/api/tasks");
-  const data = await response.json();
   if(!response.ok){
     if (response.status === 401){
       router.push("/login");
     }
     return;
   }
+  const data = await response.json();
   const formattedTasks = data.map((task: any) => ({
     id: task._id,
     name: task.name,
     completed: task.completed,
+    dueDate: task.dueDate,
+    priority: task.priority,
+    category: task.category,
+    tags: task.tags,
   }));
   setTasks(formattedTasks);
 }
@@ -61,6 +85,10 @@ export default function Home() {
       return;
     }
     setLoading(true);
+    const tagsArray = tags
+    .split(",")
+    .map((t)=> t.trim())
+    .filter((t)=> t !=="");
     const response = await fetch("/api/tasks" ,{
       method: "POST",
       headers: {
@@ -69,11 +97,19 @@ export default function Home() {
       body: JSON.stringify({
         name: task,
         completed: false,
+        dueDate: dueDate || null,
+        priority,
+        category,
+        tags: tagsArray,
       }),
     });
     console.log(response.status);
     await loadTasks();
     setTask("");
+    setDueDate("");
+    setPriority("medium");
+    setTags("");
+    setCategory("Work")
     setLoading(false);
   }
  async function deleteTask(id: string){
@@ -127,6 +163,22 @@ async function handleLogout() {
         {loading ? "Adding...": "Add Task"}
       </button>
       </div>
+      <div className="task-details">
+        <input type="datetime-local"value={dueDate}onChange={(e)=> setDueDate(e.target.value)} />
+        <select value={priority} onChange={(e)=> setPriority(e.target.value)}>
+          <option value="low">Low</option>
+          <option value="medium">Medium</option>
+          <option value="high">High</option>
+        </select>
+        <select value={category} onChange={(e)=> setCategory(e.target.value)} >
+          <option value="Work">Work</option>
+          <option value="Study">Study</option>
+          <option value="Personal">Personal</option>
+          <option value="Shopping">Shopping</option>
+          <option value="Health">Health</option>
+        </select>
+        <input type="text" placeholder="Tags (comma seperated)" value={tags} onChange={(e) => setTags(e.target.value)} />
+      </div>
       <div className="ai-actions">
         <button onClick={() => refineTask("format")} disabled = {refining}>Format</button>
         <button onClick={() => refineTask("casual")} disabled = {refining}>Casual</button>
@@ -145,7 +197,43 @@ async function handleLogout() {
           textDecoration: task.completed ? "line-through" : "none",
         }}
       >
-        {task.name}{task.completed ? "✔" : ""}
+        <div className="task-main">
+          <div className="task-top">
+            <span className="task-name">{task.name}</span>
+            {task.completed ? "✔" : ""}
+          </div>
+          <div className="task-meta">
+            {task.priority && (
+              <span className={`badge priority-${task.priority}`}>{task.priority}</span>
+            )}
+            {task.category && (
+              <span className="badge category">{task.category}</span>
+            )}
+            {task.dueDate && (
+              <span className="badge due-date">
+                {new Date(task.dueDate).toLocaleString()}
+              </span>
+            )}
+            {getDueStatus(task.dueDate) &&(
+              <span className={`badge status-${getDueStatus(task.dueDate)
+                ?.replace("","-")
+                .toLowerCase()}`}
+                >
+                  {getDueStatus(task.dueDate)}
+                </span>
+            )}
+            {task.tags && task.tags.length > 0 && (
+                      <span className="tags">
+                        {task.tags.map((tag, i) => (
+                          <span key={i} className="tag">
+                            #{tag}
+                          </span>
+                        ))}
+                      </span>
+                    )}
+          </div>
+        </div>
+      
         <div className="buttons">
           <button onClick={() => deleteTask(task.id)}>
             <Trash2 size={16} />
