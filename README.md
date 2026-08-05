@@ -1,6 +1,6 @@
 # Todo List App
 
-A full-stack Todo List application built with Next.js and MongoDB, featuring user authentication, AI-powered task refinement, and automated testing.
+A full-stack Todo List application built with Next.js and MongoDB, featuring user authentication, AI-powered task refinement, task organization (due dates, priority, categories, tags), and automated testing.
 
 ## Features
 
@@ -10,6 +10,7 @@ A full-stack Todo List application built with Next.js and MongoDB, featuring use
 - View completed tasks on a separate page
 - Logout functionality
 - Mobile responsive design
+- Animated background
 - Password validation (minimum 8 characters)
 - Email format validation
 - **AI-powered task refinement (Gemini API)** — rewrite your task text using one of four actions:
@@ -17,6 +18,12 @@ A full-stack Todo List application built with Next.js and MongoDB, featuring use
   - **Casual** — rewrite in a more natural, conversational tone
   - **Summary** — shorten the text while keeping key information
   - **Enhance** — improve clarity and readability without changing meaning
+- **Task organization:**
+  - Due date and time for each task
+  - Priority levels: Low, Medium, High
+  - "Overdue" and "Due Today" indicators shown automatically based on the due date
+  - Categories: Work, Study, Personal, Shopping, Health
+  - Multiple tags per task (comma-separated)
 - Unit tests for backend logic, authentication, and frontend components
 
 ## Tech Stack
@@ -45,7 +52,7 @@ app/
   login/page.tsx           # Login page
   signup/page.tsx          # Signup page
   completed/page.tsx       # Completed tasks page
-  page.tsx                 # Home page (Todo list + AI actions)
+  page.tsx                 # Home page (Todo list, AI actions, task organization)
   page.css                 # Styles
 lib/
   mongodb.ts                # Database connection
@@ -64,6 +71,16 @@ app/login/page.test.tsx        # Frontend component test
 4. Gemini returns the rewritten text, which replaces the text in the input box.
 
 This design makes it easy to add new AI actions in the future (e.g. Professional, Translate, Fix Grammar) — only the backend prompt logic needs to change.
+
+## Task Organization
+
+When adding a task, users can also set:
+- **Due date & time** — via a date-time picker
+- **Priority** — Low, Medium, or High
+- **Category** — Work, Study, Personal, Shopping, or Health
+- **Tags** — multiple comma-separated keywords (e.g. `urgent, client, call`)
+
+Each task displays its priority, category, due date, and tags as badges. If a task's due date has passed, it's marked **Overdue**; if the due date falls on the current day, it's marked **Due Today**.
 
 ## Getting Started
 
