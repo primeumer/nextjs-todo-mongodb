@@ -70,6 +70,13 @@ export async function POST(request: Request){
         );
     }
     const body = await request.json();
+    const validPriorities = [ "low", "medium", "high"];
+    if (body.priority && !validPriorities.includes(body.priority)){
+        return NextResponse.json(
+            {error: "Invalid priority value"},
+            {status: 400}
+        );
+    }
     const db = await connectDB();
     const collection = db.collection("Tasks");
     await collection.insertOne({ ...body,userId});
