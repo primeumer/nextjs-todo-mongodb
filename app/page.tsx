@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import { Trash2, Check, RotateCcw } from "lucide-react";
 import Link from "next/link";
+import {toast} from "react-toastify";
 import { useRouter } from "next/navigation";
 
 type Task = {
@@ -47,7 +48,7 @@ export default function Home() {
     return;
   }
   const data = await response.json();
-  const formattedTasks = data.map((task: any) => ({
+  const formattedTasks = data.map((task: any) => ({ 
     id: task._id,
     name: task.name,
     completed: task.completed,
@@ -60,7 +61,7 @@ export default function Home() {
 }
   async function refineTask(action: string){
     if(task.trim() ===""){
-      alert("Please enter your Task first");
+      toast.error("Please enter your Task");
       return;
     }
     setRefining(true);
@@ -74,14 +75,14 @@ export default function Home() {
     const data = await response.json();
     setRefining(false);
     if (!response.ok){
-      alert(data.error || "Something went wrong");
+      toast.error(data.error || "Something went wrong");
       return;
     }
     setTask(data.refinedText);
   }
   async function addTask() {
     if (task.trim() === "") {
-      alert("Please Enter your Task");
+      toast.error("Please Enter your Task");
       return;
     }
     setLoading(true);
@@ -105,6 +106,7 @@ export default function Home() {
     });
     console.log(response.status);
     await loadTasks();
+    toast.success("Task added successfully");
     setTask("");
     setDueDate("");
     setPriority("medium");
@@ -123,6 +125,7 @@ export default function Home() {
     }),
   });
   await loadTasks();
+  toast.success("Task deleted successfully");
  }
 async function completeTask(id: string, completed: boolean) {
   await fetch("/api/tasks", {
@@ -136,6 +139,7 @@ async function completeTask(id: string, completed: boolean) {
     }),
   });
   await loadTasks();
+  toast.success(`Task marked as ${!completed ? "completed" : "incomplete"}`);
 }
 async function handleLogout() {
   await fetch("/api/auth/logout", { method: "POST" });
