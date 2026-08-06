@@ -2,18 +2,19 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import {toast} from "react-toastify"
 
 export default function LoginPage(){
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [error, setError] = useState ("");
+    // const [error, setError] = useState ("");
     const [loading, setLoading] = useState(false);
     const router = useRouter();
     
     async function handlelogin(){
-        setError("");
+        // setError("");
         if( !email || !password){
-            setError ("Please fill in all fields");
+            toast.error("Please fill in all fields")
             return;
         }
         setLoading(true);
@@ -27,9 +28,10 @@ export default function LoginPage(){
         const data = await response.json();
         setLoading(false);
         if (!response.ok){
-            setError(data.error || "Something went wrong");
+            toast.error(data.error || "Something went wrong");
             return;
         }
+        toast.success("Login Successful");
         router.push("/");
     }
     return(
@@ -48,7 +50,6 @@ export default function LoginPage(){
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           />
-          {error && <p style={{ color: "salmon" }}>{error}</p>}
         <button onClick={handlelogin} disabled={loading}>
           {loading ? "Logging in..." : "Login"}
         </button>
