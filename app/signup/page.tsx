@@ -2,21 +2,25 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import {toast} from "react-toastify"
 
 export default function SignupPage(){
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [error, setError] = useState("");
+    // const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
     const router = useRouter();
     async function handleSignup(){
-        setError("");
+        // setError("");
         if(!email || !password){
-            setError("Fill all fields");
+            // setError("Fill all fields");
+            toast.error("Fill all fields");
             return;
         }
         if(password.length < 8){
-          setError("Password must be atleast 8 characters")
+          // setError("Password must be atleast 8 characters")
+          toast.error("Password must be atleast 8 characters");
+          return;
         }
         setLoading(true);
         const response = await fetch ("/api/auth/signup",{
@@ -27,9 +31,10 @@ export default function SignupPage(){
         const data = await response.json();
         setLoading(false);
         if (!response.ok){
-            setError(data.error || "Something went wrong");
+            toast.error(data.error || "Something went wrong");
             return;
         }
+        toast.success("Account created successfully");
         router.push("/login");
     }
     return(
@@ -48,7 +53,7 @@ export default function SignupPage(){
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           />
-          {error && <p style={{ color: "salmon" }}>{error}</p>}
+          {/* {error && <p style={{ color: "salmon" }}>{error}</p>} */}
         <button onClick={handleSignup} disabled={loading}>
           {loading ? "Creating account..." : "Sign Up"}
         </button>
