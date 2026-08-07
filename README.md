@@ -1,6 +1,6 @@
 # Todo List App
 
-A full-stack Todo List application built with Next.js and MongoDB, featuring user authentication, AI-powered task refinement, task organization (due dates, priority, categories, tags), and automated testing.
+A full-stack Todo List application built with Next.js and MongoDB, featuring user authentication, AI-powered task refinement, task organization (due dates, priority, categories, tags), styled toast notifications, and automated testing.
 
 ## Features
 
@@ -24,6 +24,7 @@ A full-stack Todo List application built with Next.js and MongoDB, featuring use
   - "Overdue" and "Due Today" indicators shown automatically based on the due date
   - Categories: Work, Study, Personal, Shopping, Health
   - Multiple tags per task (comma-separated)
+- **Styled toast notifications (react-toastify)** — success and error messages for signup, login, and all task actions (add, complete, undo, delete)
 - Unit tests for backend logic, authentication, and frontend components
 
 ## Tech Stack
@@ -33,6 +34,7 @@ A full-stack Todo List application built with Next.js and MongoDB, featuring use
 - **Database:** MongoDB Atlas
 - **Authentication:** JWT (JSON Web Tokens), bcryptjs for password hashing
 - **AI:** Google Gemini API (`@google/generative-ai`)
+- **Notifications:** react-toastify
 - **Testing:** Vitest, React Testing Library
 - **Icons:** lucide-react
 - **Hosting:** Vercel
@@ -54,6 +56,7 @@ app/
   completed/page.tsx       # Completed tasks page
   page.tsx                 # Home page (Todo list, AI actions, task organization)
   page.css                 # Styles
+  layout.tsx                # Root layout (includes ToastContainer)
 lib/
   mongodb.ts                # Database connection
   auth.ts                   # JWT verification helper
@@ -81,6 +84,10 @@ When adding a task, users can also set:
 - **Tags** — multiple comma-separated keywords (e.g. `urgent, client, call`)
 
 Each task displays its priority, category, due date, and tags as badges. If a task's due date has passed, it's marked **Overdue**; if the due date falls on the current day, it's marked **Due Today**.
+
+## Notifications
+
+All key actions (signup, login, add/complete/undo/delete task, AI refine errors) trigger a styled toast notification via `react-toastify`, giving clear visual feedback instead of plain browser alerts.
 
 ## Getting Started
 
